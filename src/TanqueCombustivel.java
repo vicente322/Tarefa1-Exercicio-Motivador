@@ -69,8 +69,15 @@ public class TanqueCombustivel {
 
     @Override
     public String toString() {
-        return "TanqueCombustivel [capacidade=" + capacidade + ", combustivelDisponivel=" + combustivelDisponivel
-                + ", tipoCombustivel=" + tipoCombustivel + ", tipo no tanque=" + tipoNoTanque + "]";
+        if (tipoCombustivel == TipoCombustivel.FLEX){
+            return "TanqueCombustivel [capacidade=" + capacidade + ", combustivelDisponivel=" + combustivelDisponivel
+                    + ", tipoCombustivel=" + tipoCombustivel + ", tipo no tanque=" + tipoNoTanque + "]";
+        }
+        else {
+            return "TanqueCombustivel [capacidade=" + capacidade + ", combustivelDisponivel=" + combustivelDisponivel
+                    + ", tipoCombustivel=" + tipoCombustivel + "]";
+        }
+        
     }
 
 }

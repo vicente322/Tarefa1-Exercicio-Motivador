@@ -26,6 +26,12 @@ public class Carro {
         tanque = new TanqueCombustivel(TipoCombustivel.FLEX, capacidadeTanque);
     }
 
+    public Carro(String modelo, TipoCombustivel tipoCombustivel, int consumoInicial, int consumoMinimo, int capacidadeTanque){
+        this.modelo = modelo;
+        motor = new MotorEcono(tipoCombustivel, consumoInicial, consumoMinimo);
+        tanque = new TanqueCombustivel(tipoCombustivel, capacidadeTanque);
+    }
+
     public String getModelo() {
         return modelo;
     }
@@ -63,21 +69,27 @@ public class Carro {
     public int verificaSePodeViajar(int distancia) {
         int combustivelNecessario;
         
-        if (motor instanceof MotorUnico){
-            combustivelNecessario = ((MotorUnico)motor).combustivelNecessario(distancia);
+        if (motor instanceof MotorFlex){
+            combustivelNecessario = ((MotorFlex) motor).combustivelNecessario(distancia, tanque.getTipoNoTanque());
+        }
+        else if (motor instanceof MotorUnico){
+            combustivelNecessario = ((MotorUnico) motor).combustivelNecessario(distancia);
         }
         else {
-            combustivelNecessario = ((MotorFlex) motor).combustivelNecessario(distancia,tanque.getTipoNoTanque());
+            combustivelNecessario = ((MotorEcono) motor).combustivelNecessario(distancia);
         }
 
         if (tanque.getCombustivelDisponivel() >= combustivelNecessario) {
             return distancia;
         } else {
-            if (motor instanceof MotorUnico){
-                return tanque.getCombustivelDisponivel() * ((MotorUnico)motor).getConsumo();
+            if (motor instanceof MotorFlex){
+                return tanque.getCombustivelDisponivel() * ((MotorFlex) motor).getConsumo(tanque.getTipoNoTanque());
+            }
+            else if (motor instanceof MotorUnico){
+                return tanque.getCombustivelDisponivel() * ((MotorUnico) motor).getConsumo();
             }
             else {
-                return tanque.getCombustivelDisponivel() * ((MotorFlex) motor).getConsumo(tanque.getTipoNoTanque());
+                return tanque.getCombustivelDisponivel() * ((MotorEcono)motor).getConsumo();
             }
         }
     }
@@ -86,11 +98,14 @@ public class Carro {
     public boolean viaja(int distancia) {
         if (verificaSePodeViajar(distancia) >= distancia) {
             motor.percorre(distancia);
-            if (motor instanceof MotorUnico){
-                tanque.gasta(((MotorUnico)motor).combustivelNecessario(distancia));
-            }
-            else {
+            if (motor instanceof MotorFlex){
                 tanque.gasta(((MotorFlex) motor).combustivelNecessario(distancia, tanque.getTipoNoTanque()));
+            }
+            else if (motor instanceof MotorUnico){
+                tanque.gasta(((MotorUnico) motor).combustivelNecessario(distancia));
+            }
+            else{
+                tanque.gasta(((MotorEcono) motor).combustivelNecessario(distancia));
             }
             return true;
         }
