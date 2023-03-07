@@ -12,8 +12,6 @@ public class MotorUnico extends Motor {
             return consumo;
       }
 
-
-      @Override
       public int combustivelNecessario(int distancia) {
             return distancia / consumo;
       }

@@ -15,8 +15,6 @@ public abstract class Motor {
         return this.quilometragem;
     }
 
-    public abstract int combustivelNecessario(int distancia);
-
     public void percorre(int distancia) {
         quilometragem += distancia;
     }

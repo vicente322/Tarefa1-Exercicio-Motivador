@@ -17,11 +17,13 @@ public class MotorFlex extends Motor{
             }
       }
 
-
-      @Override
-      public int combustivelNecessario(int distancia) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'combustivelNecessario'");
+      public int combustivelNecessario(int distancia, TipoCombustivel tipo) {
+            if (tipo == TipoCombustivel.GASOLINA){
+                  return distancia / consumoGasolina;
+            }
+            else {
+                  return distancia / consumoAlcool;
+            }
       }
 
       @Override

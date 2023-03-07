@@ -1,6 +1,7 @@
 public class TanqueCombustivel {
 
     private TipoCombustivel tipoCombustivel;
+    private TipoCombustivel tipoNoTanque;
     private int capacidade;
     private int combustivelDisponivel;
 
@@ -14,6 +15,10 @@ public class TanqueCombustivel {
         return tipoCombustivel;
     }
 
+    public TipoCombustivel getTipoNoTanque(){
+        return tipoNoTanque;
+    }
+
     public int getCapacidade() {
         return capacidade;
     }
@@ -22,8 +27,16 @@ public class TanqueCombustivel {
         return combustivelDisponivel;
     }
 
-    // Retorna false se o tipo de combustivel for incompativel ou se a quantidade
-    // for maior que a capacidade livre
+    /**
+     * Retorna false se o tipo de combustivel for incompativel ou se a quantidade
+     * for maior que a capacidade livre
+     * 
+     * @param tipoCombustivel Tipo abastecido
+     * @param quantidade Quantidade abastecido
+     * @return True se foi possivel abastecer, false caso contrario
+     * 
+     * Modificacao para o exercicio 4 ajusta o tipoNoTanque ao abastecer
+     */
     public boolean abastece(TipoCombustivel tipoCombustivel, int quantidade) {
         if (tipoCombustivel != this.tipoCombustivel) {
             if (this.tipoCombustivel == TipoCombustivel.FLEX) {
@@ -38,6 +51,9 @@ public class TanqueCombustivel {
             return false;
         } else {
             combustivelDisponivel += quantidade;
+            if (this.tipoCombustivel == TipoCombustivel.FLEX){
+                tipoNoTanque = tipoCombustivel;
+            }
             return true;
         }
     }
@@ -54,7 +70,7 @@ public class TanqueCombustivel {
     @Override
     public String toString() {
         return "TanqueCombustivel [capacidade=" + capacidade + ", combustivelDisponivel=" + combustivelDisponivel
-                + ", tipoCombustivel=" + tipoCombustivel + "]";
+                + ", tipoCombustivel=" + tipoCombustivel + ", tipo no tanque=" + tipoNoTanque + "]";
     }
 
 }
